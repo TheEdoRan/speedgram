@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+########################
+#####    Checks    #####
+########################
+
+if ! command -v curl &> /dev/null
+then
+    echo "curl is required but not found on the system"
+    exit 1
+fi
+
+if ! command -v speedtest &> /dev/null
+then
+    echo "speedtest CLI is required but not found on the system"
+    exit 1
+fi
+
+########################
+#####     Help     #####
+########################
+
+usage() {
+	local m="Execute a speedtest and send the result to a user via Telegram bot.\n\n"
+  m+="Usage: speedgram [-h] -s -b -u\n"
+	m+="Options:\n"
+  m+="  h\tPrint this help.\n"
+  m+="  s\tServer ID. Choose a server with @speedtestidbot.\n"
+  m+="  b\tBot token. Create a bot with @BotFather.\n"
+  m+="  u\tUser ID. Get yours with @myidbot\n"
+
+  echo -e "${m}" 1>&2
+  exit 1
+}
+
+while getopts ":s:b:u:" o; do
+  case "${o}" in
+    s)
+      SERVER_ID=${OPTARG}
+      ;;
+    b)
+      BOT_TOKEN=${OPTARG}
+      ;;
+    u)
+      USER_ID=${OPTARG}
+      ;;
+    *)
+      usage
+      ;;
+	esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${SERVER_ID}" ] || [ -z "${BOT_TOKEN}" ] || [ -z "${USER_ID}" ]; then
+	usage
+fi
+
+########################
+#####    Script    #####
+########################
+
+CURRENT_TIME=$(date)
+
+echo -e "Executing test, please wait...\n"
+URL=$(speedtest -s "${SERVER_ID}" | grep "Result URL" | awk '{print $3}')
+
+curl -f \
+	--data-urlencode "chat_id=${USER_ID}" \
+	--data-urlencode "text=Speedtest @ ${CURRENT_TIME}:
+
+${URL}" \
+	"https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" && echo -e "\n\nDone!" || echo -e "\n\nSomething went wrong." && exit 1
