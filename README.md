@@ -30,7 +30,7 @@ Options:
   h    Print this help.
   s    Server ID. Choose a server with @speedtestidbot.
   b    Bot token. Create a bot with @BotFather.
-  u    User ID. Get yours with @myidbot
+  u    User ID. Get yours with @myidbot.
 ```
 
 Example:

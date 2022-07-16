@@ -27,7 +27,7 @@ usage() {
   m+="  h\tPrint this help.\n"
   m+="  s\tServer ID. Choose a server with @speedtestidbot.\n"
   m+="  b\tBot token. Create a bot with @BotFather.\n"
-  m+="  u\tUser ID. Get yours with @myidbot\n"
+  m+="  u\tUser ID. Get yours with @myidbot.\n"
 
   echo -e "${m}" 1>&2
   exit 1
