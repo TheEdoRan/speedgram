@@ -12,6 +12,8 @@ cURL and [Speedtest CLI](https://www.speedtest.net/apps/cli).
 2. Create a new Telegram bot with [@BotFather](https://telegram.me/botfather)
 3. Get your Telegram user ID with [@myidbot](https://telegram.me/myidbot)
 
+⚠️  **Don't forget to start the chat with your newly created bot, otherwise it cannot send messages to you!**
+
 ## Installation
 
 Clone this repository and `cd` into the created directory.
